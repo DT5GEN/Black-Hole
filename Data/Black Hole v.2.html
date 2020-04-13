@@ -1,0 +1,99 @@
+<meta charset="utf-8">
+<script>
+alert('Начинаем игру "АФРО-АМЕРИКАНСКОЕ ОЧКО"                                                           т.к. "чёрное очко" не политкорректно')
+alert('Правила просты. цель набрать очков больше соперника, но НЕ БОЛЕЕ 21.    Подсчёт очков с карт как в игре Black Jack')
+
+function getRandomInt(min, max) {
+return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getCard() {
+var cards = ['6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+return cards[getRandomInt(0, cards.length - 1)];
+}
+
+function getSum(arr) {
+var sum = 0;
+var i = 0;
+for (i = 0; i < arr.length; i++) {
+if (arr[i] != 'A') {
+if (arr[i] == 'J' || arr[i] == 'Q' || arr[i] == 'K') {
+sum = sum + 10;
+} else {
+sum = sum + parseInt(arr[i]);
+}
+} else if (arr[i] == 'A') {
+if (sum > 10) {
+sum = sum + 1;
+} else {
+sum = sum + 11;
+}
+}
+}
+return sum;  
+}
+
+function getStatus1() {
+return 'Ваши карты: ' + player.join(' и ') + '.';
+}
+
+function getStatus() {
+return 'Карты соперника: ' + dealer.join(' и ') + '. Ваши карты: ' + player.join(' и ') + '.';
+}
+var dealer = [getCard(), getCard()];
+var player = [getCard(), getCard()];
+var answer = 'да';
+var result = '';
+do {
+if (getSum(player) < 21) {
+answer = prompt(getStatus1() + ' Ещё карту? «да» или «нет»?');
+if (answer == 'да') {
+player.push(getCard());
+} else {
+result = 'закончили игру';
+break;
+}
+} else if (getSum(player) == 21 ) {
+result = ' выиграли ';
+break;
+} else if (getSum(player) > 21) {
+result = ' проиграли ';
+break;
+}
+} while (answer == 'да');
+
+if (getSum(dealer)<15) 
+	{
+		dealer.push(getCard());
+		alert('Соперник решил взять ещё карту')
+		alert('Вы ' + result + ' со счетом: ' + getSum(player) + '. Счёт соперника: '+ getSum(dealer) + ' ' + getStatus())
+	}	
+else
+if (getSum(dealer)<getSum(player) && getSum(player)<22) 
+	{
+		alert('Вы ВЫИГРАЛИ .  Ваш счёт : ' + getSum(player) +  '  Счёт соперника: '+ getSum(dealer) + '  ' + getStatus())
+	}
+
+if (getSum(player)>21) 
+	{
+		alert('Вы ПРОИГРАЛИ . Счёт соперника: '+ getSum(dealer) + ' Ваш счёт : ' + getSum(player) + '  ' + getStatus())
+	}
+
+if (getSum(dealer)>getSum(player) && getSum(dealer)<22) 
+	{
+		alert('Вы ПРОИГРАЛИ . Счёт соперника: '+ getSum(dealer) + ' Ваш счёт : ' + getSum(player) + '  ' + getStatus())
+	}
+
+if (getSum(dealer)>21 && getSum(player)>21) 
+	{
+		alert('У вас у всех ПЕРЕБОР!  Вы набрали: ' + getSum(player) + '. Счёт соперника: '+ getSum(dealer) + ' ' + getStatus())
+	}	
+
+if (getSum(player) == getSum(dealer)) 
+	{
+	alert('Вы ' + result + ' НИЧЬЕЙ со счетом: ' + getSum(player) + '. ' + getStatus())	
+	}
+else
+	alert('Спасибо за игру!');
+
+</script>
